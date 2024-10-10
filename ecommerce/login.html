@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #030904; /* Changed to a green color */
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #020803; /* Darker green on hover */
+        }
+
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .message a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .message a:hover {
+            text-decoration: underline;
+        }
+
+        .flash-message {
+            margin-top: 10px;
+            color: red;
+            font-size: 14px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="login-form">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="text" id="username" required>
+                <div class="flash-message" id="flash-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+                <div class="flash-message" id="flash-message"></div>
+            </div>
+            <button type="submit">Login</button>
+            <p class="message">Don't have an account? <a href="./register.html">Sign up</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('.login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission for demo purposes
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Validation for Gmail address
+            const usernamePattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Valid Gmail pattern
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Password validation
+
+            // Clear previous flash message
+            const flashMessage = document.getElementById('flash-message');
+            flashMessage.textContent = '';
+
+            // Validation
+            if (!usernamePattern.test(username)) {
+                flashMessage.textContent = 'Please enter a valid Gmail address.';
+                flashMessage.style.display = 'block'; // Show flash message
+                return;
+            } else {
+                flashMessage.style.display = 'none'; // Hide if valid
+            }
+
+            if (!passwordPattern.test(password)) {
+                flashMessage.textContent = 'Password must be at least 6 characters long and contain both letters and numbers.';
+                flashMessage.style.display = 'block'; // Show flash message
+                return;
+            } else {
+                flashMessage.style.display = 'none'; // Hide if valid
+            }
+
+            console.log(`Username: ${username}\nPassword: ${password}`);
+        });
+    </script>
+</body>
+</html>

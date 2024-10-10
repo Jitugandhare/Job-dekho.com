@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #060809;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #010101; /* Darker blue on hover */
+        }
+
+        .flash-message {
+            margin-top: 10px;
+            color: red;
+            font-size: 14px;
+            display: none; /* Hidden by default */
+        }
+
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .message a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .message a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="signup-form">
+            <h2>Sign Up</h2>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+                <div class="flash-message" id="name-flash-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+                <div class="flash-message" id="email-flash-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+                <div class="flash-message" id="password-flash-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" required>
+                <div class="flash-message" id="mobile-flash-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" required>
+                <div class="flash-message" id="city-flash-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="">Select...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="flash-message" id="gender-flash-message"></div>
+            </div>
+            <button type="submit">Sign Up</button>
+            <p class="message">Already have an account? <a href="./login.html">Login</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('.signup-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission for demo purposes
+            
+            // Clear previous flash messages
+            document.querySelectorAll('.flash-message').forEach(msg => msg.textContent = '');
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const mobile = document.getElementById('mobile').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const gender = document.getElementById('gender').value;
+
+            // Basic validation
+            let valid = true;
+
+            if (!name) {
+                document.getElementById('name-flash-message').textContent = 'Name is required.';
+                valid = false;
+            }
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('email-flash-message').textContent = 'Please enter a valid Gmail address.';
+                valid = false;
+            }
+
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById('password-flash-message').textContent = 'Password must be at least 6 characters long and contain both letters and numbers.';
+                valid = false;
+            }
+
+            const mobilePattern = /^\d{10}$/; // 10-digit mobile number
+            if (!mobilePattern.test(mobile)) {
+                document.getElementById('mobile-flash-message').textContent = 'Please enter a valid 10-digit mobile number.';
+                valid = false;
+            }
+
+            if (!city) {
+                document.getElementById('city-flash-message').textContent = 'City is required.';
+                valid = false;
+            }
+
+            if (!gender) {
+                document.getElementById('gender-flash-message').textContent = 'Please select your gender.';
+                valid = false;
+            }
+
+            if (valid) {
+                alert(`Name: ${name}\nEmail: ${email}\nPassword: ${password}\nMobile: ${mobile}\nCity: ${city}\nGender: ${gender}`);
+            }
+        });
+    </script>
+</body>
+</html>

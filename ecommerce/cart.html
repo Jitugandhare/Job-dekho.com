@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .cart-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            max-width: 800px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dee2e6;
+            padding: 15px 0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none; /* Remove border for last item */
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .item-details {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .item-details h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #343a40;
+        }
+
+        .item-details p {
+            margin: 5px 0;
+            color: #6c757d;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2em;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .total {
+            font-size: 1.5em;
+            margin: 20px 0;
+            text-align: right;
+            color: #343a40;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout {
+            background-color: #007bff;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .checkout:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .continue-shopping {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .continue-shopping:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Your Shopping Cart</h1>
+    <div class="cart-container" id="cart-container">
+        <!-- Cart items will be dynamically inserted here -->
+    </div>
+    <div class="total" id="total"></div>
+
+    <button class="checkout" onclick="redirectToCheckout()">Proceed to Checkout</button>
+    <button class="continue-shopping" onclick="continueShopping()">Continue Shopping</button>
+
+    <script>
+        const cartItems = [
+            {
+                id: 1,
+                title: 'Product 1',
+                image: 'https://fakestoreapi.com/img/71Yd0S6s-UL._AC_UL640_QL65_ML3_.jpg',
+                price: 29.99,
+            },
+            {
+                id: 2,
+                title: 'Product 2',
+                image: 'https://fakestoreapi.com/img/71gW2m6d8XL._AC_UL640_QL65_ML3_.jpg',
+                price: 49.99,
+            }
+            // Add more items as needed
+        ];
+
+        function loadCartItems() {
+            const cartContainer = document.getElementById('cart-container');
+            cartContainer.innerHTML = '';
+
+            cartItems.forEach(item => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = 'cart-item';
+                cartItemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="item-details">
+                        <h3>${item.title}</h3>
+                        <p class="item-price">$${item.price.toFixed(2)}</p>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                `;
+                cartContainer.appendChild(cartItemDiv);
+            });
+
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('total').innerText = `Total: $${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(id) {
+            const index = cartItems.findIndex(item => item.id === id);
+            if (index !== -1) {
+                cartItems.splice(index, 1); // Remove item from cart
+                loadCartItems(); // Reload cart items
+            }
+        }
+
+        function redirectToCheckout() {
+            window.location.href = 'payment.html'; // Redirect to checkout page
+        }
+
+        function continueShopping() {
+            window.location.href = 'products.html'; // Redirect to products page
+        }
+
+        // Load cart items on page load
+        loadCartItems();
+    </script>
+</body>
+</html>
